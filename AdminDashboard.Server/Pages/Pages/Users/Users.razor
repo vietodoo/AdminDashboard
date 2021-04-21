@@ -1,10 +1,10 @@
-﻿@page "/flights"
+﻿@page "/users"
 
 @using AdminDashboard.Infrastructure.Contracts;
 @using AdminDashboard.Infrastructure.Responses;
-@inject IFlightsRepository _flightsRepo
+@inject IUsersRepository _usersRepo
 
-<MudTable Elevation="25" ServerData="@(new Func<TableState, Task<TableData<FlightsResponse>>>(ServerReload))" Hover="true" @ref="table">
+<MudTable Elevation="25" ServerData="@(new Func<TableState, Task<TableData<UsersResponse>>>(ServerReload))" Hover="true" @ref="table">
     <ToolBarContent>
 
         <div class="justify-center mud-text-align-center">
@@ -15,21 +15,21 @@
         <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel T="FlightsResponse">appCode</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="FlightsResponse">orderId</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="FlightsResponse">empName</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="FlightsResponse">price</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="UsersResponse">Họ và tên</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="UsersResponse">Số điện thoại</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="UsersResponse">Email</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="UsersResponse">Nhóm</MudTableSortLabel></MudTh>
         <MudTh Style="text-align:right">Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id">@context.appCode</MudTd>
-        <MudTd DataLabel="Name">@context.orderId</MudTd>
-        <MudTd DataLabel="Brand">@context.empName</MudTd>
-        <MudTd DataLabel="Description">@context.price</MudTd>
+        <MudTd DataLabel="Id">@context.fullName</MudTd>
+        <MudTd DataLabel="Name">@context.phone</MudTd>
+        <MudTd DataLabel="Brand">@context.email</MudTd>
+        <MudTd DataLabel="Description">@context.level</MudTd>
         <MudTd DataLabel="Actions" Style="text-align:right">
             <MudMenu Label="Actions" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
-                <MudMenuItem @onclick="@(()=>InvokeModal(@context.orderId))">Edit</MudMenuItem>
-                <MudMenuItem @onclick="@(()=>Delete(@context.orderId))">Delete</MudMenuItem>
+                <MudMenuItem @onclick="@(()=>InvokeModal(@context.phone))">Edit</MudMenuItem>
+                <MudMenuItem @onclick="@(()=>Delete(@context.phone))">Delete</MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>
