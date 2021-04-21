@@ -14,16 +14,16 @@ namespace AdminDashboard.Server.Pages.Pages.Users
         [Parameter]
         public string id { get; set; }
         [Parameter]
-        [Required(ErrorMessage = "Vui lòng nhập họ và tên")]
+        [Required]
         public string fullName { get; set; }
         [Parameter]
-        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+        [Required]
         public string phone { get; set; }
         [Parameter]
-        [Required(ErrorMessage = "Vui lòng nhập email")]
+        [Required]
         public string email { get; set; }
         [Parameter]
-        [Required(ErrorMessage ="Vui lòng nhập mật khẩu")]
+        [Required]
         public string password { get; set; }
         [Parameter]
         public bool isStatus { get; set; } = false;

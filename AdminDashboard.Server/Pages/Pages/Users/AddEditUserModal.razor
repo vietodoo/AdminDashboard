@@ -31,16 +31,16 @@
                     </MudHidden>
                 }
                 <MudItem xs="12" md="12">
-                    <MudTextField For="@(() => fullName)" @bind-Value="fullName" Required="true" Label="Họ và tên" />
+                    <MudTextField For="@(() => fullName)" @bind-Value="fullName" RequiredError="Vui lòng nhập họ và tên" Required="true" Label="Họ và tên" />
                 </MudItem>
                 <MudItem xs="12" md="12">
-                    <MudTextField For="@(() => phone)" @bind-Value="phone" Required="true" Label="Số điện thoại" />
+                    <MudTextField For="@(() => phone)" @bind-Value="phone" RequiredError="Vui lòng nhập số điện thoại" Required="true" Label="Số điện thoại" />
                 </MudItem>
                 <MudItem xs="12" md="12">
-                    <MudTextField For="@(() => email)" @bind-Value="email" Required="true" Label="Địa chỉ email" />
+                    <MudTextField For="@(() => email)" @bind-Value="email" RequiredError="Vui lòng nhập địa chỉ email" Required="true" Label="Địa chỉ email" />
                 </MudItem>
                 <MudItem xs="12" md="12">
-                    <MudTextField For="@(() => password)" @bind-Value="password" Required="true" Label="Mật khẩu" />
+                    <MudTextField For="@(() => password)" @bind-Value="password" RequiredError="Vui lòng nhập mật khẩu" Required="true" Label="Mật khẩu" />
                 </MudItem>
                 <MudItem xs="12" md="12">
                     <MudSelect For="@(() => gender)" Label="Giới tính" Strict="true" @bind-Value="gender">
