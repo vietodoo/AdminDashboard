@@ -1,5 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
+@using AdminDashboard.Infrastructure.Contracts
+@using AdminDashboard.Infrastructure.Extensions;
+
+@inject IAuthenticationRepository _authRepo
+@inject NavigationManager _navigationManager
 
 <MudThemeProvider Theme="_themeManager.Theme" />
 <MudDialogProvider />
@@ -21,22 +26,29 @@
         </MudHidden>
         <MudAppBarSpacer />
         @*<MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
-            <MudMenuItem>English</MudMenuItem>
-            <MudMenuItem>Swedish</MudMenuItem>
-            <MudMenuItem>Old Norse</MudMenuItem>
-        </MudMenu>*@
+                <MudMenuItem>English</MudMenuItem>
+                <MudMenuItem>Swedish</MudMenuItem>
+                <MudMenuItem>Old Norse</MudMenuItem>
+            </MudMenu>*@
         <MudMenu Icon="@Icons.Material.Outlined.Widgets" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
             @*<MudMenuItem Link="https://mudblazor.com/">MudBlazor</MudMenuItem>
-            <MudMenuItem Link="https://github.com/Garderoben/MudBlazor.Templates">Source Code</MudMenuItem>*@
+                <MudMenuItem Link="https://github.com/Garderoben/MudBlazor.Templates">Source Code</MudMenuItem>*@
         </MudMenu>
         <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
             <ActivatorContent>
-                <MudAvatar Image="images/avatar_jonny.jpg" />
+                @if (string.IsNullOrEmpty(ImageDataUrl))
+                {
+                    <MudAvatar Color="Color.Secondary">@FirstLetterOfName</MudAvatar>
+                }
+                else
+                {
+                    <MudAvatar Image="@ImageDataUrl"></MudAvatar>
+                }
             </ActivatorContent>
             <ChildContent>
                 <PersonCard Class="mt-n2" />
                 <MudDivider Class="mb-2" />
-                <MudListItem Text="Thông tin" Icon="@Icons.Material.Outlined.Person" Href="/account" />
+                @*<MudListItem Text="Thông tin" Icon="@Icons.Material.Outlined.Person" Href="/account" />*@
                 <MudListItem Text="Logout" Icon="@Icons.Material.Filled.Logout" OnClick="Logout" />
             </ChildContent>
         </MudMenu>
@@ -51,7 +63,7 @@
                 <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
                 <MudToolBarSpacer />
                 @*<MudButton Variant="Variant.Text" Link="https://mudblazor.com/" Style="color:#594AE2;">MudBlazor</MudButton>
-                <MudButton Variant="Variant.Text" Link="https://github.com/Garderoben/MudBlazor.Templates" Style="color:#424242;" Class="mr-3">Source Code</MudButton>*@
+                    <MudButton Variant="Variant.Text" Link="https://github.com/Garderoben/MudBlazor.Templates" Style="color:#424242;" Class="mr-3">Source Code</MudButton>*@
             </MudToolBar>
         </MudHidden>
         <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
@@ -69,6 +81,12 @@
 
     public bool _drawerOpen = true;
     public bool _themeManagerOpen = false;
+
+    [Parameter]
+    public string ImageDataUrl { get; set; }
+    private string FullName { get; set; }
+    private string Email { get; set; }
+    private char FirstLetterOfName { get; set; }
 
     void DrawerToggle()
     {
@@ -95,20 +113,42 @@
     }
 
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
-    {
+{
         new BreadcrumbItem("Personal", href: "#"),
         new BreadcrumbItem("Dashboard", href: "#"),
     };
 
     private void Logout()
     {
-        string logoutConfirmationText = "Bạn thật sự muốn thoát chương trình?";        
+        string logoutConfirmationText = "Bạn thật sự muốn thoát chương trình?";
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", logoutConfirmationText);        
+        parameters.Add("ContentText", logoutConfirmationText);
         parameters.Add("Color", Color.Error);
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
 
         _dialogService.Show<Dialogs.Logout>("Logout", parameters, options);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDataAsync();
+    }
+    private async Task LoadDataAsync()
+    {
+        var state = await _authRepo.GetAuthenticationStateAsync();
+        if (!state.User.Claims.Any())
+        {
+            _navigationManager.NavigateTo("/");
+            return;
+        }
+        var user = state.User;
+        this.Email = user.GetEmail().Split("@")[0];
+        this.FullName = user.GetFullName();
+        if (this.FullName.Length > 0)
+        {
+            FirstLetterOfName = this.FullName[0];
+        }
+        var UserId = user.GetUserId();
     }
 }
