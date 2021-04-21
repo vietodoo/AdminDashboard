@@ -22,7 +22,14 @@
             }
         </TitleContent>
         <DialogContent>
+            <MudDivider />
             <MudGrid>
+                @if (id != null)
+                {
+                    <MudHidden xs="12" md="6">
+                        <MudTextField InputType="@InputHidden" Disabled For="@(() => id)" @bind-Value="id" Required="true" Label="" />
+                    </MudHidden>
+                }
                 <MudItem xs="12" md="12">
                     <MudTextField For="@(() => fullName)" @bind-Value="fullName" Required="true" Label="Họ và tên" />
                 </MudItem>
@@ -45,6 +52,7 @@
                     <MudCheckBox @bind-Checked="@isStatus" Label="Trạng thái" Color="Color.Primary"></MudCheckBox>
                 </MudItem>
             </MudGrid>
+            <MudDivider />
         </DialogContent>
         <DialogActions>
             <MudButton Variant="Variant.Filled" OnClick="Cancel">Đóng</MudButton>
@@ -59,3 +67,7 @@
         </DialogActions>
     </MudDialog>
 </MudForm>
+@code {
+    InputType InputHidden = InputType.Hidden;
+}
+    

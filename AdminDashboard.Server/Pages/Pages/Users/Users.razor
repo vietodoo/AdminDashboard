@@ -28,8 +28,8 @@
         <MudTd DataLabel="Description">@context.level</MudTd>
         <MudTd DataLabel="Actions" Style="text-align:right">
             <MudMenu Label="Tác vụ" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
-                <MudMenuItem @onclick="@(()=>InvokeModal(@context.phone))">Cập nhật</MudMenuItem>
-                <MudMenuItem @onclick="@(()=>Delete(@context.phone))">Xóa</MudMenuItem>
+                <MudMenuItem @onclick="@(()=>InvokeModal(@context.id))">Cập nhật</MudMenuItem>
+                <MudMenuItem @onclick="@(()=>Delete(@context.id))">Xóa</MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>

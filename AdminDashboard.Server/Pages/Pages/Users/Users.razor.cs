@@ -49,15 +49,18 @@ namespace AdminDashboard.Server.Pages.Pages.Users
             table.ReloadServerData();
         }
 
-        private async Task InvokeModal(string phone)
+        private async Task InvokeModal(string id)
         {
             var parameters = new DialogParameters();
-            if (!string.IsNullOrEmpty(phone))
+            if (!string.IsNullOrEmpty(id))
             {
-                var user = pagedData.FirstOrDefault(c => c.phone == phone);
+                var user = pagedData.FirstOrDefault(c => c.id == id);
+                parameters.Add("id", user.id);
                 parameters.Add("phone", user.phone);
                 parameters.Add("fullname", user.fullName);
                 parameters.Add("email", user.email);
+                parameters.Add("isstatus", (user.status == "ACTIVE"? true : false));
+                parameters.Add("gender", user.gender);
             }
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
             var dialog = _dialogService.Show<AddEditUserModal>("Modal", parameters, options);

@@ -12,16 +12,18 @@ namespace AdminDashboard.Server.Pages.Pages.Users
         private string[] errors = { };
         private MudForm form;
         [Parameter]
-        [Required]
+        public string id { get; set; }
+        [Parameter]
+        [Required(ErrorMessage = "Vui lòng nhập họ và tên")]
         public string fullName { get; set; }
         [Parameter]
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
         public string phone { get; set; }
         [Parameter]
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập email")]
         public string email { get; set; }
         [Parameter]
-        [Required]
+        [Required(ErrorMessage ="Vui lòng nhập mật khẩu")]
         public string password { get; set; }
         [Parameter]
         public bool isStatus { get; set; } = false;
