@@ -1,16 +1,25 @@
-﻿<MudCard Elevation="0" Square="true" Class="@Class" Style="@Style">
+﻿@namespace AdminDashboard.Server.Shared
+
+@using AdminDashboard.Infrastructure.Contracts
+
+@inject IAuthenticationRepository _authRepo
+@inject NavigationManager _navigationManager
+
+<MudCard Elevation="0" Square="true" Class="@Class">
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Image="images/avatar_jonny.jpg" />
+            @if (string.IsNullOrEmpty(ImageDataUrl))
+            {
+                <MudAvatar Color="Color.Secondary">@FirstLetterOfName</MudAvatar>
+            }
+            else
+            {
+                <MudAvatar Image="@ImageDataUrl" Style="height:50px; width:50px;"> </MudAvatar>
+            }
         </CardHeaderAvatar>
         <CardHeaderContent>
-            <MudText Typo="Typo.body2">Jonny Larsson</MudText>
-            <MudText Typo="Typo.caption">IT Consultant</MudText>
+            <MudText Typo="Typo.body2">@FullName</MudText>
+            <MudText Typo="Typo.caption">@Email</MudText>
         </CardHeaderContent>
     </MudCardHeader>
 </MudCard>
-
-@code {
-    [Parameter] public string Class { get; set; }
-    [Parameter] public string Style { get; set; }
-}

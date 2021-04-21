@@ -1,5 +1,6 @@
 ﻿using AdminDashboard.Infrastructure.Requests.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -12,9 +13,10 @@ namespace AdminDashboard.Server.Pages.Pages.Authentication
         protected override async Task OnInitializedAsync()
         {
             var state = await _authRepo.GetAuthenticationStateAsync();
-            if (state != new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())))
+            if (state.User.Claims.Any())
             {
                 _navigationManager.NavigateTo("/dashboard");
+                return;
             }
         }
 
