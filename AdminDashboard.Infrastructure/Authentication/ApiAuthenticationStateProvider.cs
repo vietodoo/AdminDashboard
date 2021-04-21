@@ -69,7 +69,6 @@ namespace AdminDashboard.Infrastructure.Authentication
         private IList<Claim> ParseClaims(JwtSecurityToken tokenContent)
         {
             var claims = tokenContent.Claims.ToList();
-            claims.Add(new Claim(ClaimTypes.Name, tokenContent.Subject));
             return claims;
         }
     }

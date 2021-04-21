@@ -11,13 +11,17 @@ namespace AdminDashboard.Server.Pages.Pages.Authentication
 
         protected override async Task OnInitializedAsync()
         {
-           
+            var state = await _authRepo.GetAuthenticationStateAsync();
+            if (state != new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())))
+            {
+                _navigationManager.NavigateTo("/dashboard");
+            }
         }
 
         private async Task SubmitAsync()
         {
             var response = await _authRepo.Login(model);
-            if (response) _navigationManager.NavigateTo("/");
+            if (response) _navigationManager.NavigateTo("/dashboard");
         }
     }
 }
