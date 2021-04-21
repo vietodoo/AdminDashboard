@@ -8,18 +8,18 @@
     <ToolBarContent>
 
         <div class="justify-center mud-text-align-center">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(()=>InvokeModal(""))">Create</MudButton>
-            <MudButton Variant="Variant.Filled" OnClick="@(()=>OnSearch(""))" Color="Color.Secondary">Reload</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(()=>InvokeModal(""))">Thêm mới</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="@(()=>OnSearch(""))" Color="Color.Secondary">Refresh danh sách</MudButton>
         </div>
         <MudToolBarSpacer />
-        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Tìm kiếm" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
         <MudTh><MudTableSortLabel T="FlightsResponse">APP Code</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="FlightsResponse">Số hóa đơn</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="FlightsResponse">Tên nhân viên</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="FlightsResponse">Giá</MudTableSortLabel></MudTh>
-        <MudTh Style="text-align:right">Actions</MudTh>
+        <MudTh Style="text-align:right">Tác vụ</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Id">@context.appCode</MudTd>
@@ -27,13 +27,13 @@
         <MudTd DataLabel="Brand">@context.empName</MudTd>
         <MudTd DataLabel="Description">@context.price</MudTd>
         <MudTd DataLabel="Actions" Style="text-align:right">
-            <MudMenu Label="Actions" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
-                <MudMenuItem @onclick="@(()=>InvokeModal(@context.orderId))">Edit</MudMenuItem>
-                <MudMenuItem @onclick="@(()=>Delete(@context.orderId))">Delete</MudMenuItem>
+            <MudMenu Label="Tác vụ" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary">
+                <MudMenuItem @onclick="@(()=>InvokeModal(@context.orderId))">Cập nhật</MudMenuItem>
+                <MudMenuItem @onclick="@(()=>Delete(@context.orderId))">Xóa</MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>
     <PagerContent>
-        <MudTablePager RowsPerPageString="Rows per page" InfoFormat="InfoFormat" />
+        <MudTablePager RowsPerPageString="Số dòng trên trang" InfoFormat="InfoFormat" />
     </PagerContent>
 </MudTable>
