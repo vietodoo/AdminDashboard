@@ -49,27 +49,23 @@ namespace AdminDashboard.Server.Pages.Pages.Users
             table.ReloadServerData();
         }
 
-        private async Task InvokeModal(string id)
+        private async Task InvokeModal(string phone)
         {
-            //var parameters = new DialogParameters();
-            //if (id != 0)
-            //{
-            //    var product = pagedData.FirstOrDefault(c => c.Id == id);
-            //    parameters.Add("Id", product.Id);
-            //    parameters.Add("Name", product.Name);
-            //    parameters.Add("Description", product.Description);
-            //    parameters.Add("Rate", product.Rate);
-            //    parameters.Add("Brand", product.Brand);
-            //    parameters.Add("BrandId", product.BrandId);
-            //    parameters.Add("Barcode", product.Barcode);
-            //}
-            //var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            //var dialog = _dialogService.Show<AddEditProductModal>("Modal", parameters, options);
-            //var result = await dialog.Result;
-            //if (!result.Cancelled)
-            //{
-            //    OnSearch("");
-            //}
+            var parameters = new DialogParameters();
+            if (!string.IsNullOrEmpty(phone))
+            {
+                var user = pagedData.FirstOrDefault(c => c.phone == phone);
+                parameters.Add("phone", user.phone);
+                parameters.Add("fullname", user.fullName);
+                parameters.Add("email", user.email);
+            }
+            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<AddEditUserModal>("Modal", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                OnSearch("");
+            }
         }
 
         private async Task Delete(string id)
