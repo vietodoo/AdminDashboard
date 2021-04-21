@@ -36,8 +36,8 @@
             <ChildContent>
                 <PersonCard Class="mt-n2" />
                 <MudDivider Class="mb-2" />
-                <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" Href="/account" />
-                <MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Login" Href="/authentication/login" />
+                <MudListItem Text="Thông tin" Icon="@Icons.Material.Outlined.Person" Href="/account" />
+                <MudListItem Text="Logout" Icon="@Icons.Material.Filled.Logout" OnClick="Logout" />
             </ChildContent>
         </MudMenu>
     </MudAppBar>
@@ -99,4 +99,16 @@
         new BreadcrumbItem("Personal", href: "#"),
         new BreadcrumbItem("Dashboard", href: "#"),
     };
+
+    private void Logout()
+    {
+        string logoutConfirmationText = "Bạn thật sự muốn thoát chương trình?";        
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", logoutConfirmationText);        
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+
+        _dialogService.Show<Dialogs.Logout>("Logout", parameters, options);
+    }
 }
