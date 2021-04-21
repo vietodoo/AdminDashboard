@@ -1,13 +1,14 @@
 ﻿using AdminDashboard.Infrastructure.Contracts;
 using AdminDashboard.Infrastructure.Requests.Flights;
+using AdminDashboard.Infrastructure.Requests.Users;
 using AdminDashboard.Infrastructure.Responses;
 using AdminDashboard.Infrastructure.Static;
 using AdminDashboard.Infrastructure.Wrapper;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AdminDashboard.Infrastructure.Services
@@ -32,12 +33,28 @@ namespace AdminDashboard.Infrastructure.Services
             if (!string.IsNullOrWhiteSpace(savedToken))
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
-            }
+            }            
             HttpResponseMessage response = await client.SendAsync(request);
 
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<PaginatedResult<UsersResponse>>(content);
             return result;
+        }
+
+        public async Task<bool> UserRegister(UserRegisterRequest userRegisterRequest)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, Endpoints.UserUserRegisterEndpoint);
+            var client = _client.CreateClient();
+            var savedToken = await this._localStorage.GetItemAsync<string>("authToken");
+
+            if (!string.IsNullOrWhiteSpace(savedToken))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
+            }
+            request.Content = new StringContent(JsonConvert.SerializeObject(userRegisterRequest), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+            return true;
         }
     }
 }

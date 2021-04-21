@@ -10,5 +10,7 @@
         public static string FlightGetTicketFormPdfEndpoint = $"{BaseUrl}flights/getticketformpdf";
         // Users
         public static string UserGetAllUserEndpoint = $"{BaseUrl}user/getalluser";
+        public static string UserUserRegisterEndpoint = $"{BaseUrl}user/register";
+        
     }
 }

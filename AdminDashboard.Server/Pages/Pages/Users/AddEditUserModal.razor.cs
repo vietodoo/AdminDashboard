@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using AdminDashboard.Infrastructure.Requests.Users;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AdminDashboard.Server.Pages.Pages.Users
@@ -23,6 +21,9 @@ namespace AdminDashboard.Server.Pages.Pages.Users
         [Required]
         public string email { get; set; }
         [Parameter]
+        [Required]
+        public string password { get; set; }
+        [Parameter]
         public string status { get; set; }
         [Parameter]
         public string level { get; set; }
@@ -41,6 +42,26 @@ namespace AdminDashboard.Server.Pages.Pages.Users
             form.Validate();
             if (form.IsValid)
             {
+                var userRegisterRequest = new UserRegisterRequest() 
+                {
+                    fullName = fullName,
+                    phone = phone,
+                    email = email,
+                    password = password,
+                    status = status,
+                    gender = gender,
+                    level = "MEMBER"
+                };
+                var result = await _usersRepo.UserRegister(userRegisterRequest);
+                if (result)
+                {
+                    _snackBar.Add("Thêm user thàng công", Severity.Success);
+                    MudDialog.Close();
+                }
+                else
+                {
+                    _snackBar.Add("Thêm user thất bại", Severity.Error);
+                }
             }
         }
     }

@@ -1,4 +1,7 @@
-﻿<MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+﻿@using AdminDashboard.Infrastructure.Contracts;
+@inject IUsersRepository _usersRepo
+
+<MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
     <MudDialog>
         <TitleContent>
             @{
@@ -13,21 +16,33 @@
                 {
                     <MudText Typo="Typo.h6">
                         <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
-                        Cập nhật 
+                        Cập nhật
                     </MudText>
                 }
             }
         </TitleContent>
         <DialogContent>
             <MudGrid>
-                <MudItem xs="12" md="6">
+                <MudItem xs="12" md="12">
                     <MudTextField For="@(() => fullName)" @bind-Value="fullName" Required="true" Label="Họ và tên" />
                 </MudItem>
-                <MudItem xs="12" md="6">
+                <MudItem xs="12" md="12">
                     <MudTextField For="@(() => phone)" @bind-Value="phone" Required="true" Label="Số điện thoại" />
                 </MudItem>
-                <MudItem xs="12" md="6">
+                <MudItem xs="12" md="12">
                     <MudTextField For="@(() => email)" @bind-Value="email" Required="true" Label="Địa chỉ email" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudTextField For="@(() => password)" @bind-Value="password" Required="true" Label="Mật khẩu" />
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudSelect For="@(() => gender)" Label="Giới tính" Strict="true" @bind-Value="gender">
+                        <MudSelectItem Value="@("1")">Nam</MudSelectItem>
+                        <MudSelectItem Value="@("0")">Nữ</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" md="12">
+                    <MudCheckBox @bind-Checked="@status" Label="Trạng thái" Color="Color.Primary"></MudCheckBox>
                 </MudItem>
             </MudGrid>
         </DialogContent>
