@@ -43,6 +43,17 @@ namespace AdminDashboard.Infrastructure.Services
 
         public async Task<bool> UserRegister(UserRegisterRequest userRegisterRequest)
         {
+            var mydata = new
+            {
+                fullName = userRegisterRequest.fullName,
+                phone = userRegisterRequest.phone,
+                email = userRegisterRequest.email,
+                password = userRegisterRequest.password,
+                status = userRegisterRequest.status,
+                gender = userRegisterRequest.gender,
+                level = userRegisterRequest.level
+            };
+
             var request = new HttpRequestMessage(HttpMethod.Post, Endpoints.UserUserRegisterEndpoint);
             var client = _client.CreateClient();
             var savedToken = await this._localStorage.GetItemAsync<string>("authToken");
@@ -51,7 +62,7 @@ namespace AdminDashboard.Infrastructure.Services
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
             }
-            request.Content = new StringContent(JsonConvert.SerializeObject(userRegisterRequest), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(JsonConvert.SerializeObject(mydata), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
             return true;

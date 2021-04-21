@@ -24,7 +24,7 @@ namespace AdminDashboard.Server.Pages.Pages.Users
         [Required]
         public string password { get; set; }
         [Parameter]
-        public string status { get; set; }
+        public bool isStatus { get; set; } = false;
         [Parameter]
         public string level { get; set; }
         [Parameter]
@@ -48,7 +48,7 @@ namespace AdminDashboard.Server.Pages.Pages.Users
                     phone = phone,
                     email = email,
                     password = password,
-                    status = status,
+                    status = isStatus ? "ACTIVE": "PENDING",
                     gender = gender,
                     level = "MEMBER"
                 };

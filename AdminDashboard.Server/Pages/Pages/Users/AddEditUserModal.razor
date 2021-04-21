@@ -5,7 +5,7 @@
     <MudDialog>
         <TitleContent>
             @{
-                if (!string.IsNullOrEmpty(phone))
+                if (phone == null)
                 {
                     <MudText Typo="Typo.h6">
                         <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
@@ -42,19 +42,19 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" md="12">
-                    <MudCheckBox @bind-Checked="@status" Label="Trạng thái" Color="Color.Primary"></MudCheckBox>
+                    <MudCheckBox @bind-Checked="@isStatus" Label="Trạng thái" Color="Color.Primary"></MudCheckBox>
                 </MudItem>
             </MudGrid>
         </DialogContent>
         <DialogActions>
             <MudButton Variant="Variant.Filled" OnClick="Cancel">Đóng</MudButton>
-            @if (!string.IsNullOrEmpty(phone))
+            @if (phone == null)
             {
-                <MudButton Variant="Variant.Filled" OnClick="SaveAsync" Disabled="@(!success)" Color="Color.Secondary">Cập nhật</MudButton>
+                <MudButton Variant="Variant.Filled" OnClick="SaveAsync" Disabled="@(!success)" Color="Color.Secondary">Tạo mới</MudButton>
             }
             else
             {
-                <MudButton Variant="Variant.Filled" OnClick="SaveAsync" Disabled="@(!success)" Color="Color.Success">Tạo mới</MudButton>
+                <MudButton Variant="Variant.Filled" OnClick="SaveAsync" Disabled="@(!success)" Color="Color.Success">Cập nhật</MudButton>
             }
         </DialogActions>
     </MudDialog>
