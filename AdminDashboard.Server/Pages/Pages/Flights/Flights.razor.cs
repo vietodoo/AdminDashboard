@@ -26,32 +26,22 @@ namespace AdminDashboard.Server.Pages.Pages.Flights
         {
             var request = new FlightsRequest { PageSize = pageSize, PageNumber = pageNumber + 1 };
             var response = await _flightsRepo.GetTicketFormPdf(request);
-            if (response.Succeeded)
+            totalItems = response.TotalCount;
+            currentPage = response.CurrentPage;
+            var data = response.Data;
+            data = data.Where(element =>
             {
-                totalItems = response.TotalCount;
-                currentPage = response.CurrentPage;
-                var data = response.Data;
-                data = data.Where(element =>
-                {
-                    if (string.IsNullOrWhiteSpace(searchString))
-                        return true;
-                    if (element.appCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                        return true;
-                    if (element.empName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                        return true;
-                    if (element.orderId.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                        return true;
-                    return false;
-                }).ToList();
-                pagedData = data;
-            }
-            else
-            {
-                //foreach (var message in response.Messages)
-                //{
-                //    _snackBar.Add(localizer[message], Severity.Error);
-                //}
-            }
+                if (string.IsNullOrWhiteSpace(searchString))
+                    return true;
+                if (element.appCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                if (element.empName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                if (element.orderId.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                return false;
+            }).ToList();
+            pagedData = data;
         }
         private void OnSearch(string text)
         {
